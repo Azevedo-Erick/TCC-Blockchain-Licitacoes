@@ -1,0 +1,9 @@
+#data-path="./data"
+min-gas-price=0
+rpc-http-enabled=true
+host-allowlist=["*"]
+rpc-http-api=["ADMIN","ETH","NET","PERM","IBFT","WEB3"]
+#miner-enabled=true
+rpc-http-cors-origins=["*"]
+permissions-accounts-config-file-enabled=true
+permissions-nodes-config-file-enabled=true
