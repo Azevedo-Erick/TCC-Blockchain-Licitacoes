@@ -132,7 +132,7 @@ Este é o trabalho de conclusão de curso, este trabalho de conclusão de curso 
 
 5. Deploy do contrato
     ```bash
-    npx hardhat run scripts/deploy.js --network besuPrivate
+    npx hardhat ignition deploy ./ignition/modules/<Contrato>.js --network besuPrivate
     ```
 
 

@@ -5,3 +5,6 @@ Node-4
 node_modules
 genesis.json
 blockchain/contracts/ignition/deployments/
+
+blockchain_api/dist
+blockchain_api/node_modules
