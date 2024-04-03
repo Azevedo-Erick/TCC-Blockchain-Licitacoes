@@ -4,17 +4,20 @@ Este é o trabalho de conclusão de curso, este trabalho de conclusão de curso 
 
 ## Tecnologias
 
+
 - Hyperledger Besu
 - Docker
 - Docker Compose
 - Hardhat
 - Solidity
 - IPFS
+- .Net Core
+- C#
 
 ## Requisitos
 - Docker
 - Docker Compose
-- Node.js
+- .Net Core
 - NPM
 - Hardhat
 - Curl
