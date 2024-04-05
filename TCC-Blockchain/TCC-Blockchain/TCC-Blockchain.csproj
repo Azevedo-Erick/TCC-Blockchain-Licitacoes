@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Ipfs.Http.Client" Version="0.33.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
         <PackageReference Include="Nethereum.Web3" Version="4.20.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />

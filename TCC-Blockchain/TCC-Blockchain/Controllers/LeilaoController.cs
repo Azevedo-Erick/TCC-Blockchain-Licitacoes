@@ -8,6 +8,7 @@ using Nethereum.Web3.Accounts;
 using TCC_Blockchain.Conf;
 using TCC_Blockchain.Dtos;
 using TCC_Blockchain.Providers;
+using TCC_Blockchain.Providers.Ipfs;
 using TCC_Blockchain.Providers.SmartContracts;
 
 
@@ -43,5 +44,12 @@ public class LeilaoController : ControllerBase
     {
         var data = await _provider.BuscarDados(hash);
         return  Ok(data);
+    }
+
+    [HttpPost("to-ipfs")]
+    public async Task<IActionResult> SendToIpfs([FromForm] FileUpload file)
+    {
+        var ipfs = new IpfsProvider();
+        return Ok(await ipfs.AddFileAsync(file.File));
     }
 }
