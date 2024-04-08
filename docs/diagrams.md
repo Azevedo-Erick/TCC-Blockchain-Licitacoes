@@ -1,47 +1,71 @@
 ## Artefatos de Software
 
+### Casos de uso
+```mermaid
+flowchart TD
+    %% Definição dos Atores
+    A([👤 Licitante]) -->|Realizar registro| B(Realizar registro no sistema)
+    C([👤 Administrador]) -->|Cadastrar licitação| D(Cadastrar licitação)
+
+    %% Ações do Licitante
+    B --> E(Visualizar licitações)
+    B -->|Realizar candidatura em licitação| F(Realizar candidatura em licitação)
+    B -->|Visualizar candidaturas| G(Visualizar candidaturas)
+    B -->|Retirar candidatura| H(Retirar candidatura)
+
+    %% Ações do Administrador
+    D --> I(Cadastrar artefatos da licitação)
+    D -->|Avançar estágios da licitação| J(Avançar estágios da licitação)
+    D -->|Finalizar licitação| K(Finalizar licitação)
+    D -->|Gerenciar usuários| L(Gerenciar usuários)
+
+    %% Conexões entre ações
+    E --> F
+    F --> G
+    G --> H
+    I --> J
+    J --> K
+    K --> L
+```
+
 ### Diagrama da arquitetura
 ```mermaid
-    graph TD
-    subgraph frontend
-        AP[Angular App] --> AC[Controller] --> AS[Angular Services] -.->  AR[Angular Repository]
+graph TD
+    subgraph Frontend
+    
+        AR[Frontend]
     end
 
-    subgraph backend
-    B[Java/Quarkus Backend]
-    CA[Controller]
-    S[Service]
+    subgraph Backend
+    B(C#/.Net Core)
+    CA[Controller] --> |Lógica de Aplicação| S[Service]
     BI[Infrastructure]
     R[Repository]
     end
 
-    subgraph blockchain
+    subgraph Blockchain
     SC[Smart Contracts]
     BC[Hyperleger Besu]
     end
 
-    subgraph storage
+    subgraph Armazenamento
     D[(IPFS)]
     E[(PostgreSQL)]
     end
 
-    subgraph messaging
-    MQ[RabbitMQ]
+    subgraph Observabilidade
+        P[Prometheus] --> G[Grafana]
     end
 
+
     AR -->|Requisições HTTP| CA
-    CA -->|Lógica de Aplicação| S
     S --> BI -->|Gerenciamento de Dados| R
-    BI -->|Comunicação Assíncrona| MQ
-    MQ -->|Trabalhos em Background| SC
+    BI -->|Persiste e busca dados| SC
     SC -->|Interage com| BC
+    BI --> |Exporta métricas| P
+    BC -->|Exporta métricas|P
     R -->|Leitura/Escrita| E
     BI -->|Armazena Arquivos| D
-    style frontend fill:#f9f,stroke:#333,stroke-width:2px
-    style backend fill:#bbf,stroke:#333,stroke-width:4px
-    style blockchain fill:#fbf,stroke:#333,stroke-width:2px
-    style storage fill:#bfb,stroke:#333,stroke-width:2px
-    style messaging fill:#ddf,stroke:#333,stroke-width:2px
 ```
 
 ### DIAGRAMAS DE SEQUENCIA
