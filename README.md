@@ -33,13 +33,13 @@ Este é o trabalho de conclusão de curso, este trabalho de conclusão de curso 
 
 ### Implementação
 
-- [ x ] Implementar a rede blockchain privada, permissionada e gas free com Hyperledger Besu
-- [ X ] Utilizar o Netherium para realizar a comunicação entre a API C# e a blockchain
-- [ X ] Subir um nó IPFS
-- [   ] Subir grafana e prometheus via docker
-- [   ] Implementar os contratos inteligentes
-- [   ] Implementar a aplicação web para a realização das licitações
-- [   ] Melhorar os scripts para facilitar a execução da rede
+- [x] Implementar a rede blockchain privada, permissionada e gas free com Hyperledger Besu
+- [X] Utilizar o Netherium para realizar a comunicação entre a API C# e a blockchain
+- [X] Subir um nó IPFS
+- [ ] Subir grafana e prometheus via docker
+- [ ] Implementar os contratos inteligentes
+- [ ] Implementar a aplicação web para a realização das licitações
+- [ ] Melhorar os scripts para facilitar a execução da rede
 
 ### Dissertação
 
@@ -47,10 +47,10 @@ Este é o trabalho de conclusão de curso, este trabalho de conclusão de curso 
 
 ### Artefatos de Software
 
-- [ X ] Arquitetura do Sistema
-- [ X ] Casos de Uso
+- [X] Arquitetura do Sistema
+- [X] Casos de Uso
 - [ ] Diagrama de Atividades
-- [ X ] Diagrama de Classe
+- [X] Diagrama de Classe
 - [ ] Diagrama de Entidade Relacional
 - [ ] Prototipação
 
