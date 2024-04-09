@@ -28,7 +28,72 @@ flowchart TD
     K --> L
 ```
 
-### Diagrama da arquitetura
+### Diagrama de Classes
+
+```mermaid
+classDiagram
+      class Usuario {
+          -int id
+          -string nome
+          -string email
+          -string hashSenha
+      }
+      class Licitante {
+          -int id
+          -List~Proposta~ propostas
+          -Usuario usuario
+      }
+      class Proposta {
+          -int id
+          -string arquivoPropostaHash
+          -Licitante licitante
+          -Licitacao licitacao
+      }
+      class Licitacao {
+          -int id
+          -string titulo
+          -string descricao
+          -int fase
+          -date dataInicio
+          -date dataFim
+          -string etpHash
+          -string sigiloso
+          -string editalHash
+          -List~Proposta~ propostas
+          -List~Item~ items
+      }
+      class Item {
+          -int id
+          -string nome
+      }
+      class Cargo {
+          -int id
+          -string nome
+          -List~Permissao~ permissoes
+          -bool ativo
+      }
+      class Permissao {
+          -int id
+          -string nome
+          -bool ativo
+      }
+      class EFaseLicitacao {
+          RASCUNHO
+          PLANEJAMENTO
+          PUBLICACAO
+          RECEBIMENTO_PROPOSTAS
+          SESSAO_PUBLICA
+      }
+      Usuario "1" -- "1" Licitante 
+      Licitante "1" -- "*" Proposta 
+      Licitacao "1" -- "*" Proposta 
+      Licitacao "1" -- "*" Item 
+      Cargo "1" -- "*" Permissao 
+      Usuario "1" -- "*" Cargo
+      Licitacao -- EFaseLicitacao
+```
+
+### Arquitetura
 ```mermaid
 graph TD
     subgraph Frontend
