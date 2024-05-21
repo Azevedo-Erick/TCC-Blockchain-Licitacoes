@@ -28,6 +28,66 @@ flowchart TD
     K --> L
 ```
 
+### Diagrama de Entidade Relacional
+```mermaid
+erDiagram
+      USUARIO {
+          int id
+          string nome
+          string email
+          string hashSenha
+      }
+
+      LICITANTE {
+          int id
+          int usuario_id
+      }
+
+      PROPOSTA {
+          int id
+          string arquivoPropostaHash
+          int licitante_id
+          int licitacao_id
+      }
+
+      LICITACAO {
+          int id
+          string titulo
+          string descricao
+          int fase
+          date dataInicio
+          date dataFim
+          string etpHash
+          string sigiloso
+          string editalHash
+      }
+
+      ITEM {
+          int id
+          string nome
+          int licitacao_id
+      }
+
+      CARGO {
+          int id
+          string nome
+          bool ativo
+      }
+
+      PERMISSAO {
+          int id
+          string nome
+          bool ativo
+      }
+
+      USUARIO ||--o{ LICITANTE : possui
+      LICITANTE ||--o{ PROPOSTA : submete
+      LICITACAO ||--o{ PROPOSTA : recebe
+      LICITACAO ||--o{ ITEM : possui
+      CARGO ||--o{ PERMISSAO : tem
+      USUARIO ||--o{ CARGO : possui
+```
+
 ### Diagrama de Classes
 
 ```mermaid
