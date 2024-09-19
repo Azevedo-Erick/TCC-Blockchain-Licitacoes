@@ -6,7 +6,7 @@ module.exports = {
 	networks: {
 		besuPrivate: {
 			url: "http://localhost:8545", // Substitua pela URL do seu nó Besu
-			accounts: ["0xd5cad825d7ea66b7d383f77806d14ad32a529744b753a6553930f22e24d1eb09"],
+			accounts: ["0x73c91bb279dac538089d06a34f20b009c124568fcfb5d623eb9520f17f688611"],
 			gasPrice: 0,
 			gas: 10000000,
 		},
