@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BlocoLicitacao {
+  id                     String   @id @default(cuid())
+  titulo                 String
+  descricao              String
+  dataInicio             DateTime
+  dataFechamento         DateTime
+  dataInicioCandidaturas DateTime
+  hashEdital             String
+  hashEtp                String
+  hash                   String   @unique
+  timestamp              DateTime
+  createdAt              DateTime @default(now())
+}
+
+model BlocoStorageLicitacoes {
+  id        String   @id @default(cuid())
+  nome      String
+  hash      String   @unique
+  timestamp DateTime
+  createdAt DateTime @default(now())
+}
+
+model Usuario {
+  id         String      @id @default(cuid())
+  nome       String
+  email      String      @unique
+  senha      String
+  permissoes Permissao[] @relation("UsuarioPermissao")
+  conta      Conta?
+  timestamp  DateTime
+  createdAt  DateTime    @default(now())
+}
+
+model Conta {
+  id               String  @id @default(cuid())
+  chavePrivadaHash String
+  endereco         String
+  usuarioId        String  @unique
+  Usuario          Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model Permissao {
+  id        String   @id @default(cuid())
+  nome      String
+  timestamp DateTime
+  createdAt DateTime @default(now())
+
+  usuarios Usuario[] @relation("UsuarioPermissao")
+}
