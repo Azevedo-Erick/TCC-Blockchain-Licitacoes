@@ -1,6 +1,0 @@
-@TCC_Blockchain_HostAddress = http://localhost:5195
-
-GET {{TCC_Blockchain_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
