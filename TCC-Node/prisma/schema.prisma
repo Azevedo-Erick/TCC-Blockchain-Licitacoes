@@ -17,14 +17,28 @@ model BlocoLicitacao {
   id                     String   @id @default(cuid())
   titulo                 String
   descricao              String
+  enderecoBloco          String
   dataInicio             DateTime
-  dataFechamento         DateTime
+  dataFimCandidaturas         DateTime
   dataInicioCandidaturas DateTime
   hashEdital             String
   hashEtp                String
   hash                   String   @unique
   timestamp              DateTime
   createdAt              DateTime @default(now())
+  estagio Int
+
+  Candidato Candidato[]
+}
+
+model Candidato {
+  id        String   @id @default(cuid())
+  endereco            String @unique
+  hashCandidatura     String
+  licitacaoId         String
+  licitacao           BlocoLicitacao @relation(fields: [licitacaoId], references: [id])
+  timestampEnvio DateTime
+  createdAt DateTime @default(now())
 }
 
 model BlocoStorageLicitacoes {
