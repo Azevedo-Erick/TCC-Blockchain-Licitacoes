@@ -22,9 +22,9 @@ export class LicitacaoConcorrenciaSelecaoMenorPrecoService {
         this.storageLicitacoes = storageLicitacoes;
     }
 
-    async realizarCandidatura() {}
+    async realizarCandidatura() { }
 
-    async buscarLicitacaoPorId(id: number) {}
+    async buscarLicitacaoPorId(id: number) { }
 
     async buscarHistorico(from: string, enderecoContrato: string) {
         return await buscarHistoricoLicitacao(from, enderecoContrato);
@@ -41,15 +41,16 @@ export class LicitacaoConcorrenciaSelecaoMenorPrecoService {
             etp,
             edital
         } = licitacao;
-        const enderecoLicitacao = (await createAuction(
-            enderecoRemetente,
-            tituloLicitacao,
-            descricaoLicitacao,
-            etp,
-            edital,
+        const enderecoLicitacao = (await createAuction({
+            from: enderecoRemetente,
+            titulo: tituloLicitacao,
+            descricao: descricaoLicitacao,
+            hashETP: etp,
+            hashEdital: edital,
             dataInicio,
             dataInicioCandidaturas,
             dataFimCandidaturas
+        }
         )) as string;
 
         const storageLicitacaoDto: AdicionarLicitacaoStorageDTO = {
