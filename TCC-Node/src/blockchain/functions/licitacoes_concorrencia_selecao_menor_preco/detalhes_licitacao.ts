@@ -10,13 +10,7 @@ export default async function detalhesLicitacao(endereco: string) {
         endereco
     );
 
-    contrato.methods
+    return await contrato.methods
         .licitacao()
-        .call()
-        .then((resultado) => {
-            console.log('Valor de minhaVariavelPublica:', resultado);
-        })
-        .catch((erro) => {
-            console.error('Erro ao chamar o contrato:', erro);
-        });
+        .call();
 }
