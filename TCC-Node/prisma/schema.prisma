@@ -52,6 +52,20 @@ model Conta {
   endereco         String
   usuarioId        String  @unique
   Usuario          Usuario @relation(fields: [usuarioId], references: [id])
+
+  Licitante Licitante[]
+}
+
+model Licitante{
+  id        String   @id @default(cuid())
+  nome      String
+  email     String
+  cnpj      String
+  conta     Conta? @relation(fields: [contaid], references: [id])
+  contaid   String?
+
+  timestamp DateTime
+  createdAt DateTime @default(now())
 }
 
 model Permissao {
