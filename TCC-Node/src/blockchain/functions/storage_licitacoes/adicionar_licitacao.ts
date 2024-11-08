@@ -1,15 +1,13 @@
-import Web3 from 'web3';
-import AdicionarLicitacaoDTO from '../../../app/dtos/adicionar_licitacao_dto';
 import { privateKey } from '../../../configs/config';
 import container from '../../../di/container';
-import web3Instance from '../../../di/container';
 import storage_licitacoes_abi from '../../contracts/abis/storage_licitacoes_abi';
 import { Web3Provider } from '../../../app/providers/web3_provider';
+import AdicionarLicitacaoStorageDTO from '../../../app/dtos/adicionar_licitacao_storage_dto';
 
-const adicionarLicitacao = async (
+export default async function adicionarLicitacao(
     enderecoContrato: string,
-    licitacao: AdicionarLicitacaoDTO
-) => {
+    licitacao: AdicionarLicitacaoStorageDTO
+) {
     const web3 = container.get(Web3Provider).getWeb3();
 
     const contrato = new web3.eth.Contract(
@@ -55,14 +53,14 @@ const adicionarLicitacao = async (
 
     const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
 
-    web3.eth
-        .sendSignedTransaction(signedTx.rawTransaction)
-        .on('receipt', function (receipt) {
-            return receipt.blockHash;
-        })
-        .on('error', function (error) {
-            console.error('Erro ao enviar transação:', error);
-        });
+    return await web3.eth
+        .sendSignedTransaction(signedTx.rawTransaction);
+    /*. on('receipt', function (receipt) {
+        return receipt.blockHash;
+    })
+    .on('error', function (error) {
+        console.error('Erro ao enviar transação:', error);
+    }); */
 };
 
-export default adicionarLicitacao;
+

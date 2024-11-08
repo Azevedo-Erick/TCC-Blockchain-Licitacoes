@@ -1,9 +1,7 @@
-import Web3 from 'web3';
 import container from '../../../di/container';
-import web3Instance from '../../../di/container';
 import licitacao_concorrencia_selecao_menor_preco_abi from '../../contracts/abis/licitacao_concorrencia_selecao_menor_preco_abi';
 import { Web3Provider } from '../../../app/providers/web3_provider';
-/*  string, evento: "CandidaturaEnviada"|"EstagioAtualizado"|"LicitacaoCriada" */
+
 export default async function buscarHistoricoLicitacao(
     from: string,
     enderecoContrato: string

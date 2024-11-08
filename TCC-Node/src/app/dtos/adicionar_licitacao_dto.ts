@@ -7,5 +7,4 @@ export default interface AdicionarLicitacaoDTO {
     dataFimCandidaturas: number;
     etp: string;
     edital: string;
-    estagio: string;
 }

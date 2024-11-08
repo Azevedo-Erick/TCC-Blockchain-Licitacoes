@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import Web3 from 'web3';
+import { blockchainUrl } from '../../configs/config';
 
 @injectable()
 export class Web3Provider {
@@ -7,7 +8,7 @@ export class Web3Provider {
 
     constructor() {
         this.web3 = new Web3(
-            new Web3.providers.HttpProvider('http://localhost:8545')
+            new Web3.providers.HttpProvider(blockchainUrl)
         );
     }
 

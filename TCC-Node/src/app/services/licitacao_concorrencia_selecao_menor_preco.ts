@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import AdicionarLicitacaoDTO from '../dtos/adicionar_licitacao_dto';
 import { StorageLicitacoesService } from './storage_licitacoes_service';
-import criarLicitacao from '../../blockchain/functions/licitacoes_concorrencia_selecao_menor_preco/criar_licitacao';
+import createAuction from '../../blockchain/functions/licitacoes_concorrencia_selecao_menor_preco/create_auction';
 import adicionarLicitacao from '../../blockchain/functions/storage_licitacoes/adicionar_licitacao';
 import AdicionarLicitacaoStorageDTO from '../dtos/adicionar_licitacao_storage_dto';
 import buscarHistoricoLicitacao from '../../blockchain/functions/licitacoes_concorrencia_selecao_menor_preco/buscar_historico_licitacao';
@@ -41,7 +41,7 @@ export class LicitacaoConcorrenciaSelecaoMenorPrecoService {
             etp,
             edital
         } = licitacao;
-        const enderecoLicitacao = (await criarLicitacao(
+        const enderecoLicitacao = (await createAuction(
             enderecoRemetente,
             tituloLicitacao,
             descricaoLicitacao,

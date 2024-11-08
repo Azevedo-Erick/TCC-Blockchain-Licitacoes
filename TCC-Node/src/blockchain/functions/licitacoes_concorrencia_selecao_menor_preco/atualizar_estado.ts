@@ -7,16 +7,19 @@ import leilao_abi from '../../contracts/abis/licitacao_concorrencia_selecao_meno
 import assinarTransacao from '../../utils/assinar_transacao';
 import { Web3Provider } from '../../../app/providers/web3_provider';
 
-const atualizarEstado = async (dados: CriarNovaTransacaoDto) => {
+export default async function atualizarEstado(
+    from: string,
+    contractAdrres: string
+) {
     const web3 = container.get(Web3Provider).getWeb3();
 
-    const contrato = new web3.eth.Contract(leilao_abi, dados.to);
+    const contrato = new web3.eth.Contract(leilao_abi, contractAdrres);
     const encodedABI = contrato.methods.atualizarEstado().encodeABI();
 
     const objetoTransacao = {
-        to: dados.to,
+        to: contractAdrres,
         data: encodedABI,
-        from: dados.from,
+        from: from,
         gas: 3000000,
         gasPrice: '0'
     };
@@ -24,6 +27,4 @@ const atualizarEstado = async (dados: CriarNovaTransacaoDto) => {
     const rawTx = await assinarTransacao(objetoTransacao, privateKey);
     const transaction = await web3.eth.sendSignedTransaction(rawTx);
     return transaction;
-};
-
-export default atualizarEstado;
+}
