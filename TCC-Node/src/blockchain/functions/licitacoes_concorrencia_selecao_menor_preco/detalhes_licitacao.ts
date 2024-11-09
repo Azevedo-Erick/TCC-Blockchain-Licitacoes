@@ -10,7 +10,5 @@ export default async function detalhesLicitacao(endereco: string) {
         endereco
     );
 
-    return await contrato.methods
-        .licitacao()
-        .call();
+    return await contrato.methods.licitacao().call();
 }

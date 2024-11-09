@@ -25,4 +25,4 @@ export default async function criarStorageLicitacoes(from: string) {
 
     const rawTx = await assinarTransacao(objetoTransacao, privateKey);
     return await web3.eth.sendSignedTransaction(rawTx);
-};
+}

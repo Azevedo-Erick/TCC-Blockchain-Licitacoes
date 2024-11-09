@@ -5,7 +5,6 @@ import assinarTransacao from '../../utils/assinar_transacao';
 import { Web3Provider } from '../../../app/providers/web3_provider';
 import container from '../../../di/container';
 
-
 export default async function finalizarLicitacao(dados: CriarNovaTransacaoDto) {
     const web3 = container.get(Web3Provider).getWeb3();
 
@@ -24,4 +23,4 @@ export default async function finalizarLicitacao(dados: CriarNovaTransacaoDto) {
 
     const transaction = await web3.eth.sendSignedTransaction(rawTx);
     return transaction;
-};
+}

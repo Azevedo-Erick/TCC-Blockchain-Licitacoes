@@ -21,4 +21,4 @@ export default async function iniciarCandidatura(dados: CriarNovaTransacaoDto) {
     const rawTx = await assinarTransacao(objetoTransacao, privateKey);
     const transaction = await web3.eth.sendSignedTransaction(rawTx);
     return transaction;
-};
+}
