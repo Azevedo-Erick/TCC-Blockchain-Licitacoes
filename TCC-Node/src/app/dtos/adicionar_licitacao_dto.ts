@@ -1,10 +1,11 @@
 export default interface AdicionarLicitacaoDTO {
     enderecoRemetente: string;
+    chaveRemetente: string;
     tituloLicitacao: string;
     descricaoLicitacao: string;
     dataInicio: number;
     dataInicioCandidaturas: number;
     dataFimCandidaturas: number;
-    etp: string;
-    edital: string;
+    etpHash: string;
+    editalHash: string;
 }

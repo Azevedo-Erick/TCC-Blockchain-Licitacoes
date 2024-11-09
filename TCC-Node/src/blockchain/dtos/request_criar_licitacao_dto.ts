@@ -1,6 +1,7 @@
 export default interface RequestCriarLicitacaoDto {
-    from: string;
+    enderecoRemetente: string;
     titulo: string;
+    chaveRemetente: string;
     descricao: string;
     hashETP: string;
     hashEdital: string;

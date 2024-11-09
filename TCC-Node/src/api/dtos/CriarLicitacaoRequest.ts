@@ -8,10 +8,6 @@ import {
 export class CriarLicitacaoRequest {
     @IsString()
     @IsNotEmpty()
-    enderecoRemetente: string = ''; // Endereço do remetente
-
-    @IsString()
-    @IsNotEmpty()
     tituloLicitacao: string = ''; // Título da licitação
 
     @IsString()
