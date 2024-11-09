@@ -4,7 +4,7 @@ import { inject, injectable } from 'inversify';
 
 @injectable()
 export class JobsScheduler {
-    private licitacaoConcorrenciaSelecaoMenorPrecoService: LicitacaoConcorrenciaSelecaoMenorPrecoService;
+    private readonly licitacaoConcorrenciaSelecaoMenorPrecoService: LicitacaoConcorrenciaSelecaoMenorPrecoService;
 
     constructor(
         @inject(LicitacaoConcorrenciaSelecaoMenorPrecoService)
