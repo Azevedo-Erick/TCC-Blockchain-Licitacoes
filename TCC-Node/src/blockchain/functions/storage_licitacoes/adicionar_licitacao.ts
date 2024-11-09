@@ -53,14 +53,5 @@ export default async function adicionarLicitacao(
 
     const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
 
-    return await web3.eth
-        .sendSignedTransaction(signedTx.rawTransaction);
-    /*. on('receipt', function (receipt) {
-        return receipt.blockHash;
-    })
-    .on('error', function (error) {
-        console.error('Erro ao enviar transação:', error);
-    }); */
-};
-
-
+    return await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+}
