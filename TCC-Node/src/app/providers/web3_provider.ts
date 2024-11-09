@@ -7,9 +7,7 @@ export class Web3Provider {
     private readonly web3: Web3;
 
     constructor() {
-        this.web3 = new Web3(
-            new Web3.providers.HttpProvider(blockchainUrl)
-        );
+        this.web3 = new Web3(new Web3.providers.HttpProvider(blockchainUrl));
     }
 
     getWeb3(): Web3 {
