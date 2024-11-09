@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import container from '../../../di/container';;
+import container from '../../../di/container';
 import storage_licitacoes_abi from '../../contracts/abis/storage_licitacoes_abi';
 
 export default async function buscarTotalLicitacoes(enderecoContrato: string) {
@@ -10,7 +10,5 @@ export default async function buscarTotalLicitacoes(enderecoContrato: string) {
         enderecoContrato
     );
 
-    return await contrato.methods
-        .totalLicitacoes()
-        .call();
-};
+    return await contrato.methods.totalLicitacoes().call();
+}
