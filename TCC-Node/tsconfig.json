@@ -31,7 +31,7 @@
     "module": "commonjs",                         /* Sistema de módulos que será gerado */
     "emitDecoratorMetadata": true,                 /* Habilita a geração de metadados de decorators */
     "experimentalDecorators": true,                /* Habilita o uso de decorators */
-    "types": ["reflect-metadata"],                 /* Inclui o tipo reflect-metadata */
+    "types": ["reflect-metadata", "node", "multer"],               
     "lib": ["es6", "dom"],                         /* Bibliotecas padrão para o projeto */
     "target": "es2016",                            /* Define a versão do JavaScript gerado */
     "moduleResolution": "node",                    /* Resolução de módulos (usar 'node' para compatibilidade com Node.js) */
