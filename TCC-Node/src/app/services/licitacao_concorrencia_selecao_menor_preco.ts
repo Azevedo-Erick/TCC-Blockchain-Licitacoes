@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import AdicionarLicitacaoDTO from '../dtos/adicionar_licitacao_dto';
 import { StorageLicitacoesService } from './storage_licitacoes_service';
-import createAuction from '../../blockchain/functions/licitacoes_concorrencia_selecao_menor_preco/create_auction';
+import criarLicitacaoSelecaoMenorPreco from '../../blockchain/functions/licitacoes_concorrencia_selecao_menor_preco/criar_licitacao_selecao_menor_preco';
 import adicionarLicitacao from '../../blockchain/functions/storage_licitacoes/adicionar_licitacao';
 import AdicionarLicitacaoStorageDTO from '../dtos/adicionar_licitacao_storage_dto';
 import buscarHistoricoLicitacao from '../../blockchain/functions/licitacoes_concorrencia_selecao_menor_preco/buscar_historico_licitacao';
@@ -38,20 +38,21 @@ export class LicitacaoConcorrenciaSelecaoMenorPrecoService {
             dataInicio,
             dataInicioCandidaturas,
             dataFimCandidaturas,
-            etp,
-            edital
+            etpHash: etp,
+            editalHash: edital,
+            chaveRemetente
         } = licitacao;
-        const enderecoLicitacao = (await createAuction({
-            from: enderecoRemetente,
+        const enderecoLicitacao = (await criarLicitacaoSelecaoMenorPreco({
+            enderecoRemetente: enderecoRemetente,
             titulo: tituloLicitacao,
             descricao: descricaoLicitacao,
             hashETP: etp,
             hashEdital: edital,
             dataInicio,
             dataInicioCandidaturas,
-            dataFimCandidaturas
-        }
-        )) as string;
+            dataFimCandidaturas,
+            chaveRemetente
+        })) as string;
 
         const storageLicitacaoDto: AdicionarLicitacaoStorageDTO = {
             enderecoRemetente: enderecoRemetente,
