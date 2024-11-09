@@ -1,2 +1,46 @@
 
-GET localhost:8080/api/v1/employees
+### Register User
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "nome": "John Doe"
+}
+
+### Login User
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+### Revoke Refresh Tokens
+POST http://localhost:3000/revoke-refresh-tokens
+Content-Type: application/json
+
+{
+  "userId": 1
+}
+
+### Criar Licitação
+POST http://localhost:3000/licitacao/criar-licitacao
+Content-Type: multipart/form-data
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbTNhbGwwNXYwMDAwYXBuNjhseDRzbzdoIiwiaWF0IjoxNzMxMTg2NDk4LCJleHAiOjE3MzExODY3OTh9.0CJWjL46VnTSejDQojwnwxSdFnydKjS6EoZ8ZE0ys20
+
+{
+  "enderecoRemetente": "Rua Exemplo, 123",
+  "tituloLicitacao": "Licitacao de Teste",
+  "descricaoLicitacao": "Descrição detalhada da licitação",
+  "dataInicio": "2024-11-09T10:00:00Z",
+  "dataInicioCandidaturas": "2024-11-10T09:00:00Z",
+  "dataFimCandidaturas": "2024-11-20T17:00:00Z"
+}
+
+--form-data; name="etp"; filename="etp.pdf"
+< ./files/documents/dummy.pdf
+--form-data; name="edital"; filename="edital.pdf"
+< ./files/documents/dummy.pdf
