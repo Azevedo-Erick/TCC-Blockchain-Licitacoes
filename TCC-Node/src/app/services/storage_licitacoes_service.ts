@@ -20,20 +20,21 @@ export class StorageLicitacoesService {
     async buscarLicitacoes() { }
 
     async sincronizarLicitacoes() {
-        // Recupera o storage de licitações do banco de dados
-        const storageLicitacoes = await this.prisma.blocoStorageLicitacoes.findFirst();
+        const storageLicitacoes =
+            await this.prisma.blocoStorageLicitacoes.findFirst();
         if (!storageLicitacoes) {
             throw new Error('Contrato de licitações não encontrado');
         }
 
-        // Busca todas as licitações armazenadas na blockchain usando o hash
-        const licitacoesStorageBlockchain = await buscarLicitacoesStorage(storageLicitacoes.hash);
+        const licitacoesStorageBlockchain = await buscarLicitacoesStorage(
+            storageLicitacoes.hash
+        );
 
-        // Itera sobre cada licitação recuperada da blockchain
         for (const licitacao of licitacoesStorageBlockchain) {
-            const detalhes = await detalhesLicitacao(licitacao.enderecoBloco) as any;
+            const detalhes = (await detalhesLicitacao(
+                licitacao.enderecoBloco
+            )) as any;
 
-            // Busca licitação no banco de dados usando o endereço do bloco
             let licitacaoBD = await this.prisma.blocoLicitacao.findFirst({
                 where: { enderecoBloco: licitacao.enderecoBloco }
             });
@@ -47,8 +48,12 @@ export class StorageLicitacoesService {
                         hashEtp: detalhes.hashETP,
                         hashEdital: detalhes.hashEdital,
                         dataInicio: new Date(detalhes.dataInicio * 1000),
-                        dataInicioCandidaturas: new Date(detalhes.dataInicioCandidaturas * 1000),
-                        dataFimCandidaturas: new Date(detalhes.dataFimCandidaturas * 1000),
+                        dataInicioCandidaturas: new Date(
+                            detalhes.dataInicioCandidaturas * 1000
+                        ),
+                        dataFimCandidaturas: new Date(
+                            detalhes.dataFimCandidaturas * 1000
+                        ),
                         estagio: detalhes.estagio
                     }
                 });
@@ -59,9 +64,12 @@ export class StorageLicitacoesService {
                     licitacaoBD.hashEtp !== detalhes.hashETP ||
                     licitacaoBD.hashEdital !== detalhes.hashEdital ||
                     licitacaoBD.estagio !== detalhes.estagio ||
-                    licitacaoBD.dataInicio.getTime() !== detalhes.dataInicio * 1000 ||
-                    licitacaoBD.dataInicioCandidaturas.getTime() !== detalhes.dataInicioCandidaturas * 1000 ||
-                    licitacaoBD.dataFimCandidaturas.getTime() !== detalhes.dataFimCandidaturas * 1000;
+                    licitacaoBD.dataInicio.getTime() !==
+                    detalhes.dataInicio * 1000 ||
+                    licitacaoBD.dataInicioCandidaturas.getTime() !==
+                    detalhes.dataInicioCandidaturas * 1000 ||
+                    licitacaoBD.dataFimCandidaturas.getTime() !==
+                    detalhes.dataFimCandidaturas * 1000;
 
                 if (precisaAtualizar) {
                     await this.prisma.blocoLicitacao.update({
@@ -73,14 +81,20 @@ export class StorageLicitacoesService {
                             hashEdital: detalhes.hashEdital,
                             estagio: detalhes.estagio,
                             dataInicio: new Date(detalhes.dataInicio * 1000),
-                            dataInicioCandidaturas: new Date(detalhes.dataInicioCandidaturas * 1000),
-                            dataFimCandidaturas: new Date(detalhes.dataFimCandidaturas * 1000)
+                            dataInicioCandidaturas: new Date(
+                                detalhes.dataInicioCandidaturas * 1000
+                            ),
+                            dataFimCandidaturas: new Date(
+                                detalhes.dataFimCandidaturas * 1000
+                            )
                         }
                     });
                 }
             }
 
-            const candidatosBlockchain = await consultarDetalhesCandidatos(licitacao.enderecoBloco);
+            const candidatosBlockchain = await consultarDetalhesCandidatos(
+                licitacao.enderecoBloco
+            );
             for (const candidato of candidatosBlockchain) {
                 //const dadosCandidato = await contrato.methods.candidatos(enderecoCandidato).call();
 
@@ -93,7 +107,9 @@ export class StorageLicitacoesService {
                         data: {
                             endereco: candidato.endereco,
                             hashCandidatura: candidato.hashCandidatura,
-                            timestampEnvio: new Date(candidato.timestampEnvio * 1000),
+                            timestampEnvio: new Date(
+                                candidato.timestampEnvio * 1000
+                            ),
                             licitacaoId: licitacaoBD.id
                         }
                     });
@@ -101,8 +117,6 @@ export class StorageLicitacoesService {
             }
         }
     }
-
-
 
     async buscarLicitacaoPorId(id: number) { }
 
