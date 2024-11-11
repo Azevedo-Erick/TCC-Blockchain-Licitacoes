@@ -1,5 +1,6 @@
 const privateKey =
-    '0x7ed1b7cceca45179a6131f784d492f8df55501645a01e920a508bb778bddcdb5';
+    '0x08cef9b59f2a7a3160feea33206a0e808931dc988d2ac0b7492ae5071fd2261a';
 const blockchainUrl = 'http://localhost:8545';
 const JWT_ACCESS_SECRET = '123';
-export { privateKey, blockchainUrl, JWT_ACCESS_SECRET };
+const enviorment: 'development' | 'production' = 'development';
+export { privateKey, blockchainUrl, JWT_ACCESS_SECRET, enviorment };
