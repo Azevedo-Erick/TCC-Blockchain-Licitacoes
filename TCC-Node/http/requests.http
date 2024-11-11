@@ -1,6 +1,29 @@
+@baseUrl=https://localhost:3000
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbTNiNWp6ZWQwMDAwZDF5c2o3MmN4YXJqIiwiaWF0IjoxNzMxMjE4MzQxLCJleHAiOjE3MzEyMTg2NDF9.Py6IzIJX7cX0yrsBFOXA4CLa3TSDV4J4e5b3KeIorSQ
+
+# ENDPOINTS AUTENTICAÇÃO
+
+### LOGIN
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+### REVOGAR TOKEN
+POST {{baseUrl}}/revoke-refresh-tokens
+Content-Type: application/json
+
+{
+  "userId": 1
+}
+
+#ENDPOINTS DE USUÁRIO
 
 ### Register User
-POST http://localhost:3000/auth/register
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
@@ -9,38 +32,32 @@ Content-Type: application/json
   "nome": "John Doe"
 }
 
-### Login User
-POST http://localhost:3000/auth/login
-Content-Type: application/json
-
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-
-### Revoke Refresh Tokens
-POST http://localhost:3000/revoke-refresh-tokens
-Content-Type: application/json
-
-{
-  "userId": 1
-}
+# ENDPOINTS DE LICITAÇÃO
 
 ### Criar Licitação
-POST http://localhost:3000/licitacao/criar-licitacao
-Content-Type: multipart/form-data
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbTNhbGwwNXYwMDAwYXBuNjhseDRzbzdoIiwiaWF0IjoxNzMxMTg2NDk4LCJleHAiOjE3MzExODY3OTh9.0CJWjL46VnTSejDQojwnwxSdFnydKjS6EoZ8ZE0ys20
+POST {{baseUrl}}/licitacao/criar-licitacao
+#Content-Type: multipart/form-data
+Content-Type: application/json
+Authorization:{{token}}
 
 {
-  "enderecoRemetente": "Rua Exemplo, 123",
   "tituloLicitacao": "Licitacao de Teste",
   "descricaoLicitacao": "Descrição detalhada da licitação",
   "dataInicio": "2024-11-09T10:00:00Z",
   "dataInicioCandidaturas": "2024-11-10T09:00:00Z",
-  "dataFimCandidaturas": "2024-11-20T17:00:00Z"
+  "dataFimCandidaturas": "2024-11-20T17:00:00Z",
+  "hashEdital": "hash-edital",
+  "hashETP": "hash-etp"
 }
 
---form-data; name="etp"; filename="etp.pdf"
-< ./files/documents/dummy.pdf
---form-data; name="edital"; filename="edital.pdf"
-< ./files/documents/dummy.pdf
+# --form-data; name="etp"; filename="etp.pdf"
+# < ./files/documents/dummy.pdf
+# --form-data; name="edital"; filename="edital.pdf"
+# < ./files/documents/dummy.pdf
+
+
+
+### Detalhes
+GET {{baseUrl}}/a
+Content-Type: application/json
+
