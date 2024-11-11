@@ -17,14 +17,13 @@ model BlocoLicitacao {
   id                     String   @id @default(cuid())
   titulo                 String
   descricao              String
-  enderecoBloco          String
+  enderecoBloco          String @unique
   dataInicio             DateTime
   dataFimCandidaturas         DateTime
   dataInicioCandidaturas DateTime
   hashEdital             String
   hashEtp                String
   hash                   String   @unique
-  timestamp              DateTime
   createdAt              DateTime @default(now())
   estagio Int
 

@@ -10,7 +10,6 @@ CREATE TABLE "BlocoLicitacao" (
     "hashEdital" TEXT NOT NULL,
     "hashEtp" TEXT NOT NULL,
     "hash" TEXT NOT NULL,
-    "timestamp" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "estagio" INTEGER NOT NULL,
 
@@ -103,6 +102,9 @@ CREATE TABLE "_UsuarioPermissao" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "BlocoLicitacao_enderecoBloco_key" ON "BlocoLicitacao"("enderecoBloco");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "BlocoLicitacao_hash_key" ON "BlocoLicitacao"("hash");
