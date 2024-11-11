@@ -1,9 +1,10 @@
 import jwt from '../../auth/jwt_utils';
 import { NextFunction, Request, Response } from 'express';
 import userService from '../../../app/services/user_service';
-import auth_service from '../../../app/services/auth_service';
 import bcrypt from 'bcrypt';
-
+import container from '../../../di/container';
+import AuthService from '../../../app/services/auth_service';
+const authService = container.get(AuthService);
 export default async function login(
     req: Request,
     res: Response,
@@ -33,7 +34,7 @@ export default async function login(
         }
 
         const { accessToken, refreshToken } = jwt.generateTokens(existingUser);
-        await auth_service.addRefreshTokenToWhitelist({
+        await authService.addRefreshTokenToWhitelist({
             refreshToken,
             userId: existingUser.id
         });

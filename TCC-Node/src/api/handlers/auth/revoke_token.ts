@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import auth_service from '../../../app/services/auth_service';
+import container from '../../../di/container';
+import AuthService from '../../../app/services/auth_service';
+
+const authService = container.get(AuthService);
 
 export default async function revokeToken(
     req: Request,
@@ -8,7 +11,8 @@ export default async function revokeToken(
 ) {
     try {
         const { userId } = req.body;
-        await auth_service.revokeTokens(userId);
+
+        await authService.revokeToken(userId);
         res.json({
             message: `Token invalidado`
         });
