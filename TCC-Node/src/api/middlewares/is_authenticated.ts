@@ -12,7 +12,7 @@ export default function isAuthenticated(
 
     if (!authorization) {
         res.status(401);
-        throw new Error('🚫 Un-Authorized 🚫');
+        throw new Error('🚫 Não autorizado 🚫');
     }
 
     try {
@@ -22,9 +22,9 @@ export default function isAuthenticated(
     } catch (err) {
         res.status(401);
         if (err instanceof jwt.TokenExpiredError) {
-            throw new Error('TokenExpiredError');
+            throw new Error('O token expirou');
         }
-        throw new Error('🚫 Un-Authorized 🚫');
+        throw new Error('🚫 Não autorizado 🚫');
     }
 
     return next();
