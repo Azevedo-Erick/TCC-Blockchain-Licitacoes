@@ -1,12 +1,12 @@
 import leilao_abi from '../../contracts/abis/licitacao_concorrencia_selecao_menor_preco_abi.js';
 import container from '../../../di/container.js';
 import Web3 from 'web3';
-import RequestCriarLicitacaoDto from '../../dtos/request_criar_licitacao_dto.js';
+import CallCriarLicitacaoDto from '../../dtos/call_criar_licitacao_dto.js';
 import deployLicitacaoSelecaoMenorPrecoContract from './deploy_licitacao_selecao_menor_preco_contract.js';
 import { Web3Provider } from '../../../app/providers/web3_provider.js';
 
 export default async function criarLicitacaoSelecaoMenorPreco(
-    dto: RequestCriarLicitacaoDto
+    dto: CallCriarLicitacaoDto
 ) {
     const web3 = container.get<Web3Provider>(Web3Provider).getWeb3();
 

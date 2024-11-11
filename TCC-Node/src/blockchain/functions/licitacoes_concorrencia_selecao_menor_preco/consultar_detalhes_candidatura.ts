@@ -1,16 +1,11 @@
 import { Web3Provider } from '../../../app/providers/web3_provider';
 import container from '../../../di/container';
 import licitacao_concorrencia_selecao_menor_preco_abi from '../../contracts/abis/licitacao_concorrencia_selecao_menor_preco_abi';
-
-interface CandidatoDetalhes {
-    endereco: string;
-    hashCandidatura: string;
-    timestampEnvio: number;
-}
+import { CandidatoDetalhesOutputDto } from '../../dtos/datalhes_candidato_output_dto';
 
 export default async function consultarDetalhesCandidatos(
     contractAddress: string
-): Promise<CandidatoDetalhes[]> {
+): Promise<CandidatoDetalhesOutputDto[]> {
     const web3 = container.get(Web3Provider).getWeb3();
     const contrato = new web3.eth.Contract(
         licitacao_concorrencia_selecao_menor_preco_abi,
@@ -21,7 +16,7 @@ export default async function consultarDetalhesCandidatos(
         .getCandidatos()
         .call();
 
-    const candidatosDetalhes: CandidatoDetalhes[] = await Promise.all(
+    const candidatosDetalhes: CandidatoDetalhesOutputDto[] = await Promise.all(
         candidatosList.map(async (candidatoAddress) => {
             const candidatoDetalhes = (await contrato.methods
                 .candidatos(candidatoAddress)

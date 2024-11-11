@@ -1,4 +1,4 @@
-export default interface LicitacaoData {
+export default interface LicitacaoDataRawOutputDto {
     '0': string;
     '1': string;
     '2': string;

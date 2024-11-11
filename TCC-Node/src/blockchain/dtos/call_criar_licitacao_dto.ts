@@ -1,4 +1,4 @@
-export default interface RequestCriarLicitacaoDto {
+export default interface CallCriarLicitacaoDto {
     enderecoRemetente: string;
     titulo: string;
     chaveRemetente: string;

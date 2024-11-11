@@ -1,8 +1,8 @@
 import licitacao_concorrencia_selecao_menor_preco_abi from '../../contracts/abis/licitacao_concorrencia_selecao_menor_preco_abi';
 import container from '../../../di/container';
 import { Web3Provider } from '../../../app/providers/web3_provider';
-import ResponseDetalhesLicitacaoDto from '../../dtos/response_detalhes_licitacao_dto';
-import LicitacaoData from '../../dtos/licitacao_data';
+import DetalhesLicitacaoOutputDto from '../../dtos/detalhes_licitacao_output_dto';
+import LicitacaoDataRawOutputDto from '../../dtos/licitacao_data_raw_output_dto';
 
 export default async function detalhesLicitacao(enderecoContrato: string) {
     const web3 = container.get(Web3Provider).getWeb3();
@@ -12,9 +12,9 @@ export default async function detalhesLicitacao(enderecoContrato: string) {
         enderecoContrato
     );
 
-    const licitacaoData: LicitacaoData = await contrato.methods
+    const licitacaoData: LicitacaoDataRawOutputDto = await contrato.methods
         .licitacao()
         .call();
 
-    return new ResponseDetalhesLicitacaoDto(licitacaoData, enderecoContrato);
+    return new DetalhesLicitacaoOutputDto(licitacaoData, enderecoContrato);
 }

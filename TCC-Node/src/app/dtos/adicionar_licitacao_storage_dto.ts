@@ -1,5 +1,6 @@
 export default interface AdicionarLicitacaoStorageDTO {
     enderecoRemetente: string;
+    privateKey: string;
     enderecoLicitacao: string;
     tituloLicitacao: string;
     descricaoLicitacao: string;

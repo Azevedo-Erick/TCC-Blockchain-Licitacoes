@@ -1,6 +1,6 @@
-import LicitacaoData from './licitacao_data';
+import LicitacaoDataRawOutputDto from './licitacao_data_raw_output_dto';
 
-export default class ResponseDetalhesLicitacaoDto {
+export default class DetalhesLicitacaoOutputDto {
     titulo: string;
     descricao: string;
     hashETP: string;
@@ -11,7 +11,7 @@ export default class ResponseDetalhesLicitacaoDto {
     estagio: number;
     enderecoBloco: string;
 
-    constructor(data: LicitacaoData, enderecoBloco: string) {
+    constructor(data: LicitacaoDataRawOutputDto, enderecoBloco: string) {
         this.titulo = data.titulo || data['0'];
         this.descricao = data.descricao || data['1'];
         this.hashETP = data.hashETP || data['2'];

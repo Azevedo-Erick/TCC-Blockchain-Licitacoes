@@ -1,4 +1,4 @@
-export interface ResponseCriarContaDto {
+export interface ResponseCriarContaOutputDto {
     address: string;
     privateKey: string;
 }
