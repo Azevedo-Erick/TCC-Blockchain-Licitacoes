@@ -14,6 +14,10 @@ import router from '@adonisjs/core/services/router'
 import AutoSwagger from "adonis-autoswagger";
 import { middleware } from './kernel.js';
 
+router.named({
+  permission: () => import('#middleware/permission_middleware'),
+})
+
 
 router.group(() => {
   router.post('/licitacoes', [LicitacoesController, 'criar']).as('licitacoes.criar').use(middleware.auth({

@@ -26,7 +26,9 @@ server.use([
   () => import('#middleware/container_bindings_middleware'),
   () => import('#middleware/force_json_response_middleware'),
   () => import('@adonisjs/cors/cors_middleware'),
+  () => import('#middleware/permission_middleware'),
 ])
+
 
 /**
  * The router middleware stack runs middleware on all the HTTP
