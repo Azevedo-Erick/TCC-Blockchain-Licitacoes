@@ -3,15 +3,21 @@
 Trabalho de Conclusão de Curso voltado para a criação de uma solução baseada em **blockchain permissionada e sem custos de transação** para a realização de **licitações públicas**, utilizando tecnologias modernas como **Hyperledger Besu**, **AdonisJS 6**, **IPFS** e contratos inteligentes em **Solidity**.
 
 ## Tecnologias
+<p>
+![Hyperledger Besu](https://img.shields.io/badge/Hyperledger%20Besu-363636?style=for-the-badge&logo=hyperledger)
+![Solidity](https://img.shields.io/badge/Solidity-363636?style=for-the-badge&logo=solidity)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![AdonisJS](https://img.shields.io/badge/AdonisJS-5A45FF?style=for-the-badge&logo=adonisjs&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![IPFS](https://img.shields.io/badge/IPFS-65C2CB?style=for-the-badge&logo=ipfs&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+</p>
 
 - **Hyperledger Besu** (Blockchain permissionada)
 - **AdonisJS 6** (API backend com autenticação moderna e suporte a tokens)
 - **Docker** e **Docker Compose**
-- **Hardhat** e **Solidity** (Contratos inteligentes)
 - **IPFS** (Armazenamento descentralizado de documentos)
 - **PostgreSQL** (Banco de dados relacional)
-- **Lucid ORM** (ORM do Adonis)
-- **Prometheus & Grafana** (Monitoramento - opcional)
 - **React.js** (Frontend - em desenvolvimento)
 
 ## Requisitos
