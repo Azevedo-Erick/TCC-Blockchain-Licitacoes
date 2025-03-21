@@ -25,11 +25,8 @@ Trabalho de Conclusão de Curso voltado para a criação de uma solução basead
 
 - Docker & Docker Compose
 - Node.js (>=18)
-- NPM ou Yarn
-- Hardhat
-- Curl & jq
+- NPM
 - Git
-- PostgreSQL
 
 ## Autores
 
