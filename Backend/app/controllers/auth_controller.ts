@@ -3,6 +3,7 @@
 import { AuthService } from "#services/auth_service"
 import { inject } from "@adonisjs/core"
 import { HttpContext } from "@adonisjs/core/http"
+import BaseApiResponseDTO from "../dtos/response/base_api_response_dto.js"
 
 @inject()
 export default class AuthController {
@@ -24,7 +25,7 @@ export default class AuthController {
             return response.created({ message: 'Usuário registrado com sucesso', user })
         } catch (error) {
             console.log(error)
-            return response.badRequest({ message: 'Erro ao registrar usuário', error })
+            return response.badRequest(BaseApiResponseDTO.error(error.message))
         }
     }
 

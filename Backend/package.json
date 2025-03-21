@@ -66,6 +66,7 @@
     "luxon": "^3.5.0",
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
     "web3": "^4.16.0"
   },
   "hotHook": {

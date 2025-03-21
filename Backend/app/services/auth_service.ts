@@ -33,21 +33,26 @@ export class AuthService {
       await trx.commit()
       return user
     } catch (error) {
+      if (error.code == 23505) {
+        throw new Exception("E-mail e/ou senha invalidos", { code: 'E_UNIQUE', status: 400 })
+      }
       await trx.rollback()
     }
   }
 
   public async login(email: string, password: string) {
-    const user = await User.verifyCredentials(email, password).catch(() => {
+    try {
+      const user = await User.verifyCredentials(email, password).catch(() => {
+        throw new Exception('Credenciais inválidas', { code: 'E_INVALID_AUTH', status: 401 })
+      })
+      const token = await User.accessTokens.create(user, [], {
+        expiresIn: '1h',
+        name: 'auth',
+      });
+      return BaseApiResponseDTO.success(token)
+    } catch (error) {
       throw new Exception('Credenciais inválidas', { code: 'E_INVALID_AUTH', status: 401 })
-    })
-
-    const token = await User.accessTokens.create(user, [], {
-      expiresIn: '1h',
-      name: 'auth',
-    });
-
-    return BaseApiResponseDTO.success(token)
+    }
   }
 
   public async logout(auth: Authenticator<Authenticators>) {
