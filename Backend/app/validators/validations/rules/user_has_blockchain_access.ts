@@ -3,7 +3,7 @@ import ValidationResultDto from "../../../dtos/result/validation_result_dto.js";
 import ValidationRuleInterface from "./validation_rule_interface.js";
 
 export default class UserHasBlockchainAccess implements ValidationRuleInterface {
-    static validate(data: User): ValidationResultDto {
+    validate(data: User): ValidationResultDto {
 
         if (!data) {
             return {
