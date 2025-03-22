@@ -19,14 +19,17 @@ test.group("LicitacoesConcorrenciaSelecaoMenorPrecoService", (group) => {
         assert.isDefined(accountProvider);
     });
 
-    test("Um usuário com permissão deve poder criar uma instância de contrato", async ({ assert }) => {
+    test("Um usuário com permissão deve poder criar uma instância de contrato", async ({ assert }, done) => {
         const account = accountProvider.criarConta();
         await accountProvider.addPermissionToAccount(account.address);
         const result = await provider.deployLicitacaoSelecaoMenorPrecoContract(account.address, account.privateKey);
         console.log("Endereço do contrato:", result.contractAddress);
         assert.isTrue(result.success);
         assert.match(result.contractAddress, /^0x/);
-    }).timeout(30000);
+        done();
+    })
+        .waitForDone()
+        .timeout(30000);
 
     test("Deve atualizar o estado da licitação e verificar mudança no estágio", async ({ assert }) => {
         const account = accountProvider.criarConta();

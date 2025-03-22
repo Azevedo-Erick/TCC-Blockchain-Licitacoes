@@ -29,8 +29,8 @@ export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
       if (!existsSync('./tmp')) {
         mkdirSync('./tmp')
       }
+      testUtils.db().migrate()
     },
-    () => testUtils.db().migrate(),
   ],
   teardown: [
     () => testUtils.db().truncate()
