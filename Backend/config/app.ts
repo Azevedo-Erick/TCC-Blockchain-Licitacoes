@@ -39,4 +39,4 @@ export const http = defineConfig({
   },
 })
 
-export const besuURL = env.get('BESU_URL') || 'http://localhost:8545'
+export const besuURL = env.get('BESU_URL') || 'http://127.0.0.1:8545'
