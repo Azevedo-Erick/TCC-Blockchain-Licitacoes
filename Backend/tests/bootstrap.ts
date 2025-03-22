@@ -5,6 +5,7 @@ import type { Config } from '@japa/runner/types'
 import { pluginAdonisJS } from '@japa/plugin-adonisjs'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { existsSync, mkdirSync, rmdirSync } from 'fs'
+import { exit } from 'process'
 
 /**
  * This file is imported by the "bin/test.ts" entrypoint file
@@ -33,7 +34,11 @@ export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
     },
   ],
   teardown: [
-    () => testUtils.db().truncate()
+    async () => {
+      testUtils.db().truncate();
+      await app.terminate()
+      exit();
+    }
   ],
 }
 
