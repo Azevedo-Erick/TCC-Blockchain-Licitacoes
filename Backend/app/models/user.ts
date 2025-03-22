@@ -40,17 +40,13 @@ export default class User extends compose(BaseModel, AuthFinder) {
   })
   public account!: HasOne<typeof Account>
 
-  @manyToMany(() => Role, {
-    pivotTable: 'role_user',
-  })
-  declare roles: ManyToMany<typeof Role>
+  @belongsTo(() => Role)
+  declare role: BelongsTo<typeof Role>
 
   public async hasPermission(permissionName: string): Promise<boolean> {
-    const roles = this.roles;
+    const role = this.role;
 
-    return roles.some((role) =>
-      role.permissions.some((permission) => permission.name === permissionName)
-    )
+    return role.permissions.some((permission) => permission.name === permissionName)
   }
 
   public async loadRolesWithPermissions(): Promise<void> {
