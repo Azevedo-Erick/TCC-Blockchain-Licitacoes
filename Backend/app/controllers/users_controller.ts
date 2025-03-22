@@ -9,7 +9,7 @@ export default class UsersController {
     constructor(private readonly userService: UserService) { }
 
     public addPermission({ params, auth }: HttpContext) {
-        return this.userService.addPermission(params.id, auth);
+        return this.userService.addPermission(params.id);
 
     }
 }

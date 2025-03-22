@@ -36,12 +36,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   static accessTokens = DbAccessTokensProvider.forModel(User)
 
   @hasOne(() => Account, {
-    foreignKey: 'accountId',
+    foreignKey: 'userId',
   })
   public account!: HasOne<typeof Account>
-
-  @column()
-  public accountId: string | undefined
 
   @manyToMany(() => Role, {
     pivotTable: 'role_user',

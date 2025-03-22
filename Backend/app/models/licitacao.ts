@@ -5,6 +5,8 @@ import Transacao from './transacao.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations';
 
 export default class Licitacao extends BaseModel {
+  public static table = 'licitacoes'
+
   @column({ isPrimary: true })
   public id: string = '';
 
