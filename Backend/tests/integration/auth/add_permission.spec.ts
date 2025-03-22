@@ -38,7 +38,13 @@ test.group('Group - Add Permission', (group) => {
         return { token: jsonResponse.data.token, user }
     }
 
-    test('Um usuario autenticado e com permissao deve poder alterar as permissoes de outro usuario', async ({ client }) => {
+    test('Um usuario autenticado e com permissao deve poder alterar o cargo de outro usuario', async ({ client }) => {
+        const { token } = await autenticar(client, { blockchainAccess: true })
+        const permissions = {
 
+        }
+        const response = await client
+            .post('/auth/add-permission')
+            .header('Authorization', `Bearer ${token}`)
     })
 })
