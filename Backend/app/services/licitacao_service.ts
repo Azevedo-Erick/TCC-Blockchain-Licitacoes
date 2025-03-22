@@ -14,7 +14,7 @@ export class LicitacaoService {
 
   constructor(private readonly userService: UserService) { }
 
-  public async criarLicitacao(dto: CreateLicitacaoParamsDto): Promise<void> {
+  public async criarLicitacao(dto: CreateLicitacaoParamsDto): Promise<Licitacao> {
 
 
     const dataInicioUnix = dto.dataInicio.getTime()
@@ -27,7 +27,7 @@ export class LicitacaoService {
       throw new Error('Usuário não encontrado');
     }
 
-    const web3 = new Web3(besuURL);
+    const web3 = new Web3((new Web3.providers.HttpProvider(besuURL)));
 
     const licitacaoConcorrenciaSelecaoMenorPrecoService = new LicitacoesConcorrenciaSelecaoMenorPrecoService(web3);
 
@@ -43,11 +43,11 @@ export class LicitacaoService {
       hashETP: dto.hashEtp,
     });
 
-    if (!transacao) {
+    if (!transacao.success) {
       throw new Error('Erro ao criar licitação');
     }
 
-    const licitacao = await Licitacao.create({
+    return await Licitacao.create({
       dataFimCandidaturas: DateTime.fromJSDate(dto.dataFimCandidaturas),
       dataInicio: DateTime.fromJSDate(dto.dataInicio),
       dataInicioCandidaturas: DateTime.fromJSDate(dto.dataInicioCandidaturas),

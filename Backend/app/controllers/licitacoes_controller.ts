@@ -5,12 +5,11 @@ import { LicitacaoService } from "#services/licitacao_service"
 import { UserService } from "#services/user_service"
 import { createLicitacaoValidator } from "#validators/licitacao"
 import UserHasBlockchainAccess from "#validators/validations/rules/user_has_blockchain_access"
-import Validator from "#validators/validations/validator"
+import validate from "#validators/validations/validator"
 import { inject } from "@adonisjs/core"
 import { HttpContext } from "@adonisjs/core/http"
 import app from '@adonisjs/core/services/app'
 import fs from 'fs/promises'
-
 @inject()
 export default class LicitacoesController {
     constructor(private ipfsService: IpfsService, private licitacaoService: LicitacaoService, private userService: UserService) { }
@@ -20,12 +19,9 @@ export default class LicitacoesController {
             if (!user) {
                 return response.unauthorized({ message: 'Usuário não autenticado' })
             }
-
-            const data = request.all()
-            const payload = await createLicitacaoValidator.validate(data)
-
+            const payload = await request.validateUsing(createLicitacaoValidator);
             const usuario = await this.userService.findWithAccount(user.id)
-            let validacao = Validator.validate(UserHasBlockchainAccess, usuario)
+            let validacao = validate(new UserHasBlockchainAccess(), usuario)
             if (!validacao.isValid) {
                 return response.badRequest({ message: validacao.message })
             }
@@ -42,25 +38,17 @@ export default class LicitacoesController {
             await etpFile.move(app.tmpPath('uploads'))
             await editalFile.move(app.tmpPath('uploads'))
 
-            const etpFileBuffer = await fs.readFile(etpFile.tmpPath!)
-            const etpNodeFile = new File([etpFileBuffer], etpFile.clientName, {
-                type: etpFile.headers['content-type'] || 'application/octet-stream',
-                lastModified: Date.now(),
-            })
+            const etpFileBuffer = await fs.readFile(etpFile.filePath!)
 
-            const editalFileBuffer = await fs.readFile(editalFile.tmpPath!)
-            const editalNodeFile = new File([editalFileBuffer], etpFile.clientName, {
-                type: etpFile.headers['content-type'] || 'application/octet-stream',
-                lastModified: Date.now(),
-            })
-            const etpHash = await this.ipfsService.uploadFile(etpNodeFile)
-            const editalHash = await this.ipfsService.uploadFile(editalNodeFile)
+            const editalFileBuffer = await fs.readFile(editalFile.filePath!)
+            const etpHash = (await (await app.container.make('helia')).strings.add("a")).toString();
+            const editalHash = (await (await app.container.make('helia')).strings.add("a")).toString();
 
             if (!etpHash || !editalHash) {
                 return response.internalServerError({ message: 'Erro ao fazer upload dos arquivos para IPFS' })
             }
 
-            await this.licitacaoService.criarLicitacao({
+            const licitacao = await this.licitacaoService.criarLicitacao({
                 dataFimCandidaturas: dataInicioCandidaturas,
                 dataInicio: dataInicio,
                 dataInicioCandidaturas: dataFimCandidaturas,
@@ -70,20 +58,12 @@ export default class LicitacoesController {
                 titulo: tituloLicitacao,
                 userId: usuario!.id.toString(),
             })
-
             return response.ok({
                 message: 'Licitação criada com sucesso!',
-                licitacao: {
-                    titulo_licitacao: tituloLicitacao,
-                    descricao_licitacao: descricaoLicitacao,
-                    hash_etp: etpHash,
-                    hash_edital: editalHash,
-                    data_inicio: dataInicio,
-                    data_inicio_candidaturas: dataInicioCandidaturas,
-                    data_fim_candidaturas: dataFimCandidaturas,
-                },
+                licitacao: licitacao,
             })
         } catch (error) {
+            console.log(error)
             return response.internalServerError({ message: 'Erro ao criar licitação', error: error.message })
         }
     }
@@ -107,7 +87,7 @@ export default class LicitacoesController {
     public async candidatar({ request, params, auth, response }: HttpContext) {
         try {
             const user = auth.user
-            let validacao = Validator.validate(UserHasBlockchainAccess, user)
+            let validacao = validate(new UserHasBlockchainAccess(), user)
             if (!validacao.isValid) {
                 return response.badRequest({ message: validacao.message })
             }
@@ -122,18 +102,12 @@ export default class LicitacoesController {
 
             const fileBuffer = await fs.readFile(file.tmpPath!)
 
-            const nodeFile = new File([fileBuffer], file.clientName, {
-                type: file.headers['content-type'] || 'application/octet-stream',
-                lastModified: Date.now(),
-            })
-
-            const hash = await this.ipfsService.uploadFile(nodeFile)
+            const hash = (await app.container.make('helia')).strings.add("a");/* await this.ipfsService.uploadFile(fileBuffer) */
 
             if (!hash) {
                 return response.internalServerError({ message: 'Erro ao fazer upload da proposta' })
             }
-
-            await this.licitacaoService.candidatar(hash, usuario!.id.toString(), params.id)
+            await this.licitacaoService.candidatar("", usuario!.id.toString(), params.id)
 
             return response.ok({ message: 'Candidatura realizada com sucesso!' })
         } catch (error) {

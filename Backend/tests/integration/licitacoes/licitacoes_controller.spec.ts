@@ -62,8 +62,8 @@ test.group('LicitacoesController', (group) => {
         console.log(response.body())
         response.assertStatus(200)
         response.assertBodyContains({ message: 'Licitação criada com sucesso!' })
-        assert.exists(response.body().licitacao.hash_etp)
-        assert.exists(response.body().licitacao.hash_edital)
+        assert.exists(response.body().licitacao.hashEtp)
+        assert.exists(response.body().licitacao.hashEdital)
         done()
     }).waitForDone()
 

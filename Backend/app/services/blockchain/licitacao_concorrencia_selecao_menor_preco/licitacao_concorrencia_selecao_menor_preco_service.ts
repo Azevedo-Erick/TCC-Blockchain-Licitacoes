@@ -87,69 +87,78 @@ export default class LicitacoesConcorrenciaSelecaoMenorPrecoService extends Base
     public async criarLicitacaoSelecaoMenorPreco(
         dto: CallCriarLicitacaoDto
     ): Promise<BlockCreationResultDTO> {
-
-        const {
-            enderecoRemetente: from,
-            titulo,
-            chaveRemetente,
-            descricao,
-            hashETP,
-            hashEdital,
-            dataInicio,
-            dataInicioCandidaturas,
-            dataFimCandidaturas
-        } = dto;
-
-        const transaction = await this.deployLicitacaoSelecaoMenorPrecoContract(
-            from,
-            chaveRemetente
-        );
-
-        if (!transaction) {
-            throw new Error("Erro ao criar contrato de licitação");
-        }
-
-        const enderecoContrato = transaction.contractAddress;
-
-        const contratoInstanciado = new this.web3.eth.Contract(
-            this.abi,
-            enderecoContrato
-        );
-
-        const encodedABI = contratoInstanciado.methods
-            .criarLicitacao(
+        try {
+            const {
+                enderecoRemetente: from,
                 titulo,
+                chaveRemetente,
                 descricao,
                 hashETP,
                 hashEdital,
                 dataInicio,
                 dataInicioCandidaturas,
                 dataFimCandidaturas
-            )
-            .encodeABI();
-        const gasPrice = await this.web3.eth.getGasPrice();
+            } = dto;
 
-        const tx = {
-            from: from,
-            to: contratoInstanciado.options.address,
-            data: encodedABI,
-            gasPrice: gasPrice,
-            gas: 2000000
-        };
+            const transaction = await this.deployLicitacaoSelecaoMenorPrecoContract(
+                from,
+                chaveRemetente
+            );
 
-        const signedTx = await this.web3.eth.accounts.signTransaction(
-            tx,
-            chaveRemetente
-        );
+            if (!transaction) {
+                throw new Error("Erro ao criar contrato de licitação");
+            }
 
-        const receipt = await this.web3.eth.sendSignedTransaction(
-            signedTx.rawTransaction
-        );
-        return {
-            success: true,
-            contractAddress: contratoInstanciado.options!.address!,
-            blockHash: receipt.blockHash.toString()
-        };
+            const enderecoContrato = transaction.contractAddress;
+
+            const contratoInstanciado = new this.web3.eth.Contract(
+                this.abi,
+                enderecoContrato
+            );
+
+            const encodedABI = contratoInstanciado.methods
+                .criarLicitacao(
+                    titulo,
+                    descricao,
+                    hashETP,
+                    hashEdital,
+                    dataInicio,
+                    dataInicioCandidaturas,
+                    dataFimCandidaturas
+                )
+                .encodeABI();
+            const gasPrice = await this.web3.eth.getGasPrice();
+
+            const tx = {
+                from: from,
+                to: contratoInstanciado.options.address,
+                data: encodedABI,
+                gasPrice: gasPrice,
+                gas: 2000000
+            };
+
+            const signedTx = await this.web3.eth.accounts.signTransaction(
+                tx,
+                chaveRemetente
+            );
+
+            const receipt = await this.web3.eth.sendSignedTransaction(
+                signedTx.rawTransaction
+            );
+            return {
+                success: true,
+                contractAddress: contratoInstanciado.options!.address!,
+                blockHash: receipt.blockHash.toString()
+            };
+        }
+        catch (error) {
+            console.error(error);
+            return {
+                success: false,
+                contractAddress: '',
+                blockHash: ''
+            };
+        }
     }
 
     public async deployLicitacaoSelecaoMenorPrecoContract(
