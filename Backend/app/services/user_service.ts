@@ -1,9 +1,9 @@
 import { besuURL } from "#config/app";
 import User from "#models/user";
-import { Authenticator } from "@adonisjs/auth";
-import { Authenticators } from "@adonisjs/auth/types";
 import { Web3 } from "web3";
 import { AccountBlockchainService } from "./blockchain/account_blockchain_service.js";
+import Account from "#models/account";
+import { QueryClientContract, TransactionClientContract } from "@adonisjs/lucid/types/database";
 
 export class UserService {
 
@@ -15,7 +15,7 @@ export class UserService {
       .first()
   }
 
-  async addPermission(id: string, auth: Authenticator<Authenticators>) {
+  async addPermission(id: string) {
     try {
 
       const user = await User.findOrFail(id);
@@ -36,7 +36,28 @@ export class UserService {
       console.log(e);
       return { error: e.message };
     }
+  }
 
+  async createAccount(id: string, dbTransaction: TransactionClientContract) {
+    try {
+      const user = await User.findOrFail(id);
+      if (!user) {
+        throw new Error("Usuário não encontrado");
+      }
+      const web3 = new Web3(besuURL);
+      const accountBlockchainService = new AccountBlockchainService(web3)
+      const blockchainAccount = accountBlockchainService.criarConta()
+      const account = new Account();
+      account.privateKeyHash = blockchainAccount.privateKey;
+      account.canSendTransactions = false;
+      account.address = blockchainAccount.address;
+      account.userId = user.id;
+      account.useTransaction(dbTransaction)
+      await account.save()
+      return account;
+    } catch (e) {
+      throw new Error(e.message);
+    }
   }
 
 }

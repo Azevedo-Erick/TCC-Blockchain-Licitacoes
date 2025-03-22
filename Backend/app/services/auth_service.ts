@@ -4,39 +4,32 @@ import { Authenticator } from "@adonisjs/auth";
 import { Authenticators } from "@adonisjs/auth/types";
 import DB from '@adonisjs/lucid/services/db'
 import BaseApiResponseDTO from "../dtos/response/base_api_response_dto.js";
-import { AccountBlockchainService } from "./blockchain/account_blockchain_service.js";
-import { Web3 } from "web3";
-import Account from "#models/account";
 import db from '@adonisjs/lucid/services/db'
-import { besuURL } from "#config/app";
+import { UserService } from "./user_service.js";
+import { inject } from "@adonisjs/core";
 
+@inject()
 export class AuthService {
-  constructor() { }
+  constructor(private userService: UserService) { }
   public async register(data: { fullName: string; email: string; password: string }) {
-    const trx = await db.transaction()
+    const dbTransaction = await db.transaction()
     try {
-      const user = await User.create({
-        fullName: data.fullName,
-        email: data.email,
-        password: data.password
-      })
-      const web3 = new Web3(besuURL);
-      const accountBlockchainService = new AccountBlockchainService(web3)
-      const blockchainAccount = accountBlockchainService.criarConta()
-      const account = await Account.create({
-        privateKeyHash: blockchainAccount.privateKey,
-        canSendTransactions: false,
-        address: blockchainAccount.address,
-      })
-      user.accountId = account.id;
+      const user = new User();
+      user.fullName = data.fullName
+      user.email = data.email
+      user.password = data.password
+      user.useTransaction(dbTransaction)
       await user.save()
-      await trx.commit()
+      const account = await this.userService.createAccount(user.id.toString(), dbTransaction)
+      await user.related('account').save(account)
+
+      await dbTransaction.commit()
       return user
     } catch (error) {
       if (error.code == 23505) {
         throw new Exception("E-mail e/ou senha invalidos", { code: 'E_UNIQUE', status: 400 })
       }
-      await trx.rollback()
+      await dbTransaction.rollback()
     }
   }
 
