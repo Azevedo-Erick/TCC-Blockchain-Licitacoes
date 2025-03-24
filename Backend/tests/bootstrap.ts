@@ -6,6 +6,7 @@ import { pluginAdonisJS } from '@japa/plugin-adonisjs'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { existsSync, mkdirSync, rmdirSync } from 'fs'
 import { exit } from 'process'
+import db from '@adonisjs/lucid/services/db'
 
 /**
  * This file is imported by the "bin/test.ts" entrypoint file
@@ -26,18 +27,22 @@ export const plugins: Config['plugins'] = [assert(), apiClient(), pluginAdonisJS
  */
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
   setup: [
-    () => {
+    async () => {
       if (!existsSync('./tmp')) {
         mkdirSync('./tmp')
       }
-      testUtils.db().migrate()
+      try {
+        await testUtils.db().migrate()
+      } catch (e) {
+        console.log(e)
+        exit(1)
+      }
     },
   ],
   teardown: [
     async () => {
-      testUtils.db().truncate();
-      await app.terminate()
-      exit();
+      await testUtils.db().truncate();
+      await db.manager.closeAll()
     }
   ],
 }
