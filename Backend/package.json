@@ -57,6 +57,7 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.6.0",
     "@adonisjs/redis": "^9.1.0",
+    "@helia/http": "^2.0.0",
     "@helia/strings": "^4.0.3",
     "@helia/unixfs": "^4.0.3",
     "@vinejs/vine": "^3.0.1",
@@ -66,12 +67,12 @@
     "fetch-blob": "^4.0.0",
     "file-type": "^20.4.1",
     "formdata-node": "^6.0.3",
-    "@helia/http": "^2.0.0",
     "luxon": "^3.5.0",
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
     "sqlite3": "^5.1.7",
-    "web3": "^4.16.0"
+    "web3": "^4.16.0",
+    "web3-validator": "^2.0.6"
   },
   "hotHook": {
     "boundaries": [
