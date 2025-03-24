@@ -4,8 +4,24 @@ import { Web3 } from "web3";
 import { AccountBlockchainService } from "./blockchain/account_blockchain_service.js";
 import Account from "#models/account";
 import { QueryClientContract, TransactionClientContract } from "@adonisjs/lucid/types/database";
+import Role from "#models/role";
 
 export class UserService {
+  async changeRole(id: number, roleId: number, currentUser: User) {
+    if (currentUser.id == id) {
+      throw new Error("Você não pode alterar seu próprio cargo");
+    }
+    const user = await User.findOrFail(id);
+    if (!user) {
+      return null;
+    }
+    const role = await Role.findOrFail(roleId);
+    if (!role) {
+      return null;
+    }
+    await user.related('role').associate(role);
+    return user;
+  }
 
 
   public async findWithAccount(id: number): Promise<User | null> {

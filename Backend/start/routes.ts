@@ -42,6 +42,14 @@ router.group(() => {
   router.delete(path + "/:id/permissions/clear", [RolesController, 'clearPermissions']).as('roles.clearPermissions')
 })
 
+router.group(() => {
+  const path = base + '/users'
+  router.patch(path + '/:id/role/:role', [UsersController, 'changeRole']).as('user.changeRole').use(middleware.auth({
+    guards: ['api']
+  }))
+})
+
+
 
 router.get("/swagger", async () => {
   return AutoSwagger.default.docs(router.toJSON(), swagger);
