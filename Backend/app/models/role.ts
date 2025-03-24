@@ -20,7 +20,7 @@ export default class Role extends BaseModel {
   declare users: HasMany<typeof User>
 
   @manyToMany(() => Permission, {
-    pivotTable: 'permission_role',
+    pivotTable: 'permission_roles',
   })
   declare permissions: ManyToMany<typeof Permission>
 
