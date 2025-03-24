@@ -13,11 +13,9 @@ const LicitacoesController = () => import('#controllers/licitacoes_controller')
 import router from '@adonisjs/core/services/router'
 import AutoSwagger from "adonis-autoswagger";
 import { middleware } from './kernel.js';
+import RolesController from '#controllers/roles_controller';
 
-router.named({
-  permission: () => import('#middleware/permission_middleware'),
-})
-
+const base = '/api/v1';
 
 router.group(() => {
   router.post('/licitacoes', [LicitacoesController, 'criar']).as('licitacoes.criar').use(middleware.auth({
@@ -32,6 +30,17 @@ router.post('/register', [AuthController, 'register']).as('register')
 router.get('/logout', [AuthController, 'logout']).as('logout').use(middleware.auth({
   guards: ['api']
 }))
+router.group(() => {
+  const path = base + '/roles'
+  router.get(path, [RolesController, 'index']).as('roles.listar')
+  router.post(path, [RolesController, 'store']).as('roles.store')
+  router.get(path + "/:id", [RolesController, 'show']).as('roles.detail')
+  router.delete(path + "/:id", [RolesController, 'destroy']).as('roles.destroy')
+  router.patch(path + "/:id", [RolesController, 'update']).as('roles.update')
+  router.post(path + "/:id/permissions", [RolesController, 'addPermission']).as('roles.addPermission')
+  router.delete(path + "/:id/permissions", [RolesController, 'removePermission']).as('roles.removePermission')
+  router.delete(path + "/:id/permissions/clear", [RolesController, 'clearPermissions']).as('roles.clearPermissions')
+})
 
 
 router.get("/swagger", async () => {
