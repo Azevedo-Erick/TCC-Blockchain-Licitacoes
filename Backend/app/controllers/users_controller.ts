@@ -8,8 +8,14 @@ import { HttpContext } from "@adonisjs/core/http";
 export default class UsersController {
     constructor(private readonly userService: UserService) { }
 
-    public addPermission({ params, auth }: HttpContext) {
-        return this.userService.addPermission(params.id);
+    async changeRole({ params, response, auth }: HttpContext) {
+        try {
 
+            const user = await this.userService.changeRole(params.id, params.role, auth.user!);
+            return response.status(200).json(user);
+        } catch (e) {
+            return response.status(400).json({ message: e.message });
+        }
     }
+
 }

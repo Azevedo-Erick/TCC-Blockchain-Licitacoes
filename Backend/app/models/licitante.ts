@@ -37,6 +37,9 @@ export default class Licitante extends BaseModel {
   @column()
   declare ramoAtividadeId: number
 
+  @column()
+  declare contractAddress: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
