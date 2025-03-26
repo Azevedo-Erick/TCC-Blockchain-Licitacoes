@@ -18,16 +18,19 @@ import RolesController from '#controllers/roles_controller';
 const base = '/api/v1';
 
 router.group(() => {
-  router.post('/licitacoes', [LicitacoesController, 'criar']).as('licitacoes.criar').use(middleware.auth({
-    guards: ['api']
-  }))
+  const path = base + '/licitacoes'
+  router.post(
+    path, [LicitacoesController, 'criar'])
+    .as('licitacoes.criar')
+    .use(middleware.auth({
+      guards: ['api']
+    }))
+    .use(middleware.permission([PermissionEnum.CREATE_LICITACAO]))
   //router.get('/licitacoes', [LicitacoesController, 'listar']).as('licitacoes.listar')
-  router.get('/licitacoes/:id', [LicitacoesController, 'show']).as('licitacoes.detalhes')
-})
-
-router.post('/login', [AuthController, 'login']).as('login')
-router.post('/register', [AuthController, 'register']).as('register')
-router.get('/logout', [AuthController, 'logout']).as('logout').use(middleware.auth({
+  router.get(path + '/:id', [LicitacoesController, 'show']).as('licitacoes.detalhes')
+}).use(middleware.auth({
+  guards: ['api']
+}))
   guards: ['api']
 }))
 router.group(() => {

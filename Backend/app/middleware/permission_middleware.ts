@@ -1,26 +1,29 @@
+import PermissionDenied from '#exceptions/permission_denied_exception'
+import Unauthorized from '#exceptions/unauthorized_exception'
 import type { HttpContext } from '@adonisjs/core/http'
-import type { NextFn } from '@adonisjs/core/types/http'
 
 export default class PermissionMiddleware {
-  async handle({ auth, response }: HttpContext, next: NextFn, guards: string[]) {
-    const [permissionName] = guards
+  async handle(ctx: HttpContext, next: () => Promise<void>, guards: string[]) {
+    const { auth, response } = ctx
+    if (guards.length === 0) {
+      return await next()
+    }
 
-    const user = auth.user
+    let user = auth.user
 
     if (!user) {
-      return response.unauthorized({ error: 'Usuário não autenticado' })
+      throw new Unauthorized()
     }
 
-    const hasPermission = await user.hasPermission(permissionName)
+    await user.load('role', (query) => {
+      query.preload('permissions')
+    })
+    //TODO: Adicionar verificação de permissão para cada guard 
+    let hasPermission = await user.hasPermission(guards[0]);
 
     if (!hasPermission) {
-      return response.forbidden({ error: 'Permissão negada' })
+      throw new PermissionDenied()
     }
-
-    /**
-     * Call next method in the pipeline and return its output
-     */
-    const output = await next()
-    return output
+    await next()
   }
 }

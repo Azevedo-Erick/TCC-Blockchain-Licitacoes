@@ -42,6 +42,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @belongsTo(() => Role)
   declare role: BelongsTo<typeof Role>
+  @column()
+  declare roleId: number
 
   public async hasPermission(permissionName: string): Promise<boolean> {
     const role = this.role;
